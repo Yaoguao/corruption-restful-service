@@ -1,16 +1,21 @@
-﻿namespace Corruption.Core.Models;
+﻿using MongoDB.Bson;
+using MongoDB.Bson.Serialization.Attributes;
+
+namespace Corruption.Core.Models;
 
 public class Message
 {
+    [BsonId]
+    [BsonRepresentation(BsonType.String)]
     public Guid Id { get; set; }
 
-    public string SenderId { get; }
+    public string SenderId { get; set; }
 
-    public string RecipientId { get; }
+    public string RecipientId { get; set; }
 
-    public string Content { get; }
+    public string Content { get; set; }
 
-    public string CreateTime { get; }
+    public string CreateTime { get; set; }
 
 
     private Message(Guid id, string senderId, string recipientId, string content, string createTime)

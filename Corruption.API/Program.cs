@@ -1,5 +1,7 @@
 using Corruption.Application.Service;
 using Corruption.Core.Interfaces;
+using Corruption.DataAccess;
+using Corruption.DataAccess.Repository;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,7 +14,10 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+builder.Services.AddSingleton<CorruptionContext>();
+
 builder.Services.AddScoped<IMessageService, MessageService>();
+builder.Services.AddScoped<IMessageRepository, MessageRepository>();
 
 var app = builder.Build();
 

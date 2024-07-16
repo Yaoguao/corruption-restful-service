@@ -2,7 +2,7 @@
 
 namespace Corruption.Core.Interfaces;
 
-public interface IMessageService
+public interface IMessageRepository
 {
     Task<List<Message>> FindAll();
 

@@ -17,7 +17,7 @@ public class MessageController : ControllerBase
     }
 
     [HttpPost]
-    public ActionResult<CorruptionMessage> validMessageCor([FromBody] MessageRequest messageRequest)
+    public ActionResult<CorruptionMessage> Insert([FromBody] MessageRequest messageRequest)
     {
         
         var sampleData = new SentimentModel.ModelInput()
@@ -25,21 +25,46 @@ public class MessageController : ControllerBase
             Col0 = messageRequest.Content
         };
 
+        Guid messageId;
+
         var result = SentimentModel.Predict(sampleData);
 
         var resCor = (double) result.Score[0] * 100;
         var resNormalCor = (double)result.Score[1] * 100;
 
-        var conclusion = resCor > 70.0 ? "Cor" : "No cor";
+        var conclusion = resCor > 60.0 ? "Corruption" : "No corruption";
 
-        var corruptionMessage = new CorruptionMessage(
-            Guid.NewGuid(),
+        if (resCor > 60.0)
+        {
+            var (message, error) = Message.Create(
+                Guid.NewGuid(),
+                messageRequest.SenderId,
+                messageRequest.RecipientId,
+                messageRequest.Content,
+                messageRequest.CreateTime
+            );
+
+            _messageService.Insert(message);
+            messageId = message.Id;
+            
+            var corruptionMessageResponse = new CorruptionMessageResponse(
+                messageRequest.Content,
+                resCor,
+                resNormalCor,
+                conclusion,
+                messageId
+            );
+
+            return Ok(corruptionMessageResponse);
+        }
+
+        var noCorruptionMessageResponse = new NoCorruptionMessageResponse(
             messageRequest.Content,
             resCor,
             resNormalCor,
             conclusion
         );
 
-        return Ok(corruptionMessage);
+        return Ok(noCorruptionMessageResponse);
     }
 }
