@@ -6,7 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace MyMLApp
+namespace SentimentModel_WebApi1
 {
     public partial class SentimentModel
     {

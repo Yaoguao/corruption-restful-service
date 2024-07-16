@@ -465,7 +465,7 @@
     },
     "Schema": "e0 * e1 * e2 * (e3 + e4 + e5 + e6 + e7 + e8 + e9) * e10",
     "MetricName": "MacroAccuracy",
-    "ModelFilePath": "C:\\Users\\PC\\source\\repos\\myMLApp\\myMLApp\\SentimentModel.mlnet"
+    "ModelFilePath": "C:\\Users\\PC\\RiderProjects\\corruption-restful-service\\Corruption.Core\\SentimentModel.mlnet"
   },
   "Type": "TrainingConfig",
   "Version": 4,

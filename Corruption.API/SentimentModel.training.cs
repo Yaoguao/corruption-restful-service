@@ -8,9 +8,6 @@ using System.Threading.Tasks;
 using Microsoft.ML.Data;
 using Microsoft.ML.Trainers;
 using Microsoft.ML;
-
-namespace MyMLApp
-{
     public partial class SentimentModel
     {
         public const string RetrainFilePath =  @"C:\Users\PC\Downloads\DataSet.csv";
@@ -99,4 +96,4 @@ namespace MyMLApp
             return pipeline;
         }
     }
- }
+ 
