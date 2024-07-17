@@ -10,10 +10,13 @@ namespace Corruption.API.Controllers;
 public class MessageController : ControllerBase
 {
     private readonly IMessageService _messageService;
-
-    public MessageController(IMessageService messageService)
+    
+    private readonly ICorruptionMessageService _corruptionMessageService;
+    
+    public MessageController(IMessageService messageService, ICorruptionMessageService corruptionMessageService)
     {
         _messageService = messageService;
+        _corruptionMessageService = corruptionMessageService;
     }
 
     [HttpPost]
@@ -47,7 +50,8 @@ public class MessageController : ControllerBase
             _messageService.Insert(message);
             messageId = message.Id;
             
-            var corruptionMessageResponse = new CorruptionMessageResponse(
+            var (corruptionMessage, errorCor) = CorruptionMessage.Create(
+                Guid.NewGuid(),
                 messageRequest.Content,
                 resCor,
                 resNormalCor,
@@ -55,7 +59,9 @@ public class MessageController : ControllerBase
                 messageId
             );
 
-            return Ok(corruptionMessageResponse);
+            _corruptionMessageService.Insert(corruptionMessage);
+
+            return Ok(corruptionMessage);
         }
 
         var noCorruptionMessageResponse = new NoCorruptionMessageResponse(
@@ -66,5 +72,21 @@ public class MessageController : ControllerBase
         );
 
         return Ok(noCorruptionMessageResponse);
+    }
+
+    [HttpGet("{id:guid}")]
+    public async Task<ActionResult<Message>> Find(Guid id)
+    {
+        var message = await _messageService.Find(id);
+
+        return Ok(message);
+    }
+
+    [HttpGet]
+    public async Task<ActionResult<List<Message>>> FindAll()
+    {
+        var messages = await _messageService.FindAll();
+
+        return Ok(messages);
     }
 }

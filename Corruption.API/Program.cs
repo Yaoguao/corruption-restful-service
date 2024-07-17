@@ -17,6 +17,8 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddSingleton<CorruptionContext>();
 
 builder.Services.AddScoped<IMessageService, MessageService>();
+builder.Services.AddScoped<ICorruptionMessageService, CorruptionMessageService>();
+builder.Services.AddScoped<ICorruptionMessageRepository, CorruptionMessageRepository>();
 builder.Services.AddScoped<IMessageRepository, MessageRepository>();
 
 var app = builder.Build();

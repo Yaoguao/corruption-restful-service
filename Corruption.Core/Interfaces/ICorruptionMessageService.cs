@@ -2,7 +2,7 @@
 
 namespace Corruption.Core.Interfaces;
 
-public interface ICorruptionMessageRepository
+public interface ICorruptionMessageService
 {
     Task<CorruptionMessage> Find(Guid id);
 

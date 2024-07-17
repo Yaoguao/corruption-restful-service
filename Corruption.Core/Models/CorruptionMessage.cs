@@ -18,6 +18,7 @@ public class CorruptionMessage
 
     public string Conclusion { get; set; }
     
+    [BsonRepresentation(BsonType.String)]
     public Guid MessageId { get; set; }
 
     private CorruptionMessage(Guid id, string content, double resultCorruption, double resultNormalCorruption,
